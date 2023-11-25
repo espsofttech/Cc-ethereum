@@ -1,14 +1,10 @@
-# This Makefile is meant to be used by people that do not usually work
-# with Go source code. If you know what GOPATH is then you probably
-# don't need to bother with make.
-
-.PHONY: geth android ios evm all test clean
+.PHONY: Ccgeth all test clean
 
 GOBIN = ./build/bin
 GO ?= latest
-GORUN = go run
+GORUN = env GO111MODULE=on go run
 
-geth:
+Ccgeth:
 	$(GORUN) build/ci.go install ./cmd/geth
 	@echo "Done building."
 	@echo "Run \"$(GOBIN)/geth\" to launch geth."
@@ -23,7 +19,7 @@ lint: ## Run linters.
 	$(GORUN) build/ci.go lint
 
 clean:
-	go clean -cache
+	env GO111MODULE=on go clean -cache
 	rm -fr build/_workspace/pkg/ $(GOBIN)/*
 
 # The devtools target installs tools required for 'go generate'.
